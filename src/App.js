@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
-const API_URL = 'https://data.nasa.gov/resource/gh4g-9sfh.json?$limit=500000';
+const API_URL = 'https://data.nasa.gov/resource/gh4g-9sfh.json';
 
 class App extends Component {
   state = {
@@ -31,6 +31,25 @@ class App extends Component {
             </label>
             <input type="submit" value="Submit" />
           </form>
+
+          <table>
+            <tbody>{this.state.meteorite.map(function (item, key) {
+              return (
+                <tr key={key}>
+                  <td>{item.name}</td>
+                  <td>{item.id}</td>
+                  <td>{item.nametype}</td>
+                  <td>{item.recclass}</td>
+                  <td>{item.mass}</td>
+                  <td>{item.fall}</td>
+                  <td>{item.year}</td>
+                  <td>{item.reclat}</td>
+                  <td>{item.reclong}</td>
+                </tr>
+              )
+
+            })}</tbody>
+          </table>
 
         </header>
       </div >
