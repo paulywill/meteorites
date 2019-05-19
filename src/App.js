@@ -28,10 +28,23 @@ class App extends Component {
             </label>
             <input type="submit" value="Submit" />
           </form>
-
+          <br />
           <table>
-            <tbody>{this.state.meteorite.map(function (item, key) {
+            <tbody>  
+            <tr>
+              <th>Name</th>
+              <th>Id</th>
+              <th>NameType</th>
+              <th>Rec Class</th>
+              <th>Mass (g)</th>
+              <th>Fall</th>
+              <th>Year</th>
+              <th>Latitude</th>
+              <th>Longitude</th>
+            </tr>
+            {this.state.meteorite.map(function (item, key) {
               return (
+                
                 <tr key={key}>
                   <td>{item.name}</td>
                   <td>{item.id}</td>
