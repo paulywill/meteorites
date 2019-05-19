@@ -15,10 +15,7 @@ class App extends Component {
         console.log(this.state.meteorite)
       })
   }
-  
-  
-  
-  
+
   render() {
     return (
       <div>
@@ -42,7 +39,7 @@ class App extends Component {
                   <td>{item.recclass}</td>
                   <td>{item.mass}</td>
                   <td>{item.fall}</td>
-                  <td>{item.year}</td>
+                  <td>{item.year ? item.year.substring(0, 4) : ""}</td>
                   <td>{item.reclat}</td>
                   <td>{item.reclong}</td>
                 </tr>
