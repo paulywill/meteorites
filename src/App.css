@@ -1,11 +1,6 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.flex-container {
+  display: flex;
+  flex-wrap: nowrap;
 }
 
 .App-header {
@@ -30,4 +25,27 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+table{
+  background-color: white;
+  border-collapse: collapse;
+  color: black;
+  margin: 50px;
+  
+}
+
+th{
+  background-color: #FFB471; 
+  border-collapse: collapse;
+  padding: 15px;
+  text-align: left;
+}
+
+tr.border_bottom td {
+  border-bottom:1pt solid black;
+}
+
+td{
+  padding: 15px;
 }

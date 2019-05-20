@@ -7,6 +7,7 @@ class App extends Component {
   state = {
     meteorite: []
   }
+
   componentDidMount() {
     const url = `${API_URL}`;
     axios.get(url).then(response => response.data)
@@ -16,9 +17,11 @@ class App extends Component {
       })
   }
 
+
+
   render() {
     return (
-      <div>
+      <div className="flex-container">
         <header className="App-header">
           <h1>Meteorite Explorer</h1>
 
@@ -45,16 +48,16 @@ class App extends Component {
             {this.state.meteorite.map(function (item, key) {
               return (
                 
-                <tr key={key}>
+                <tr key={key} className="border_bottom">
                   <td>{item.name}</td>
-                  <td>{item.id}</td>
+                  <td align="right">{item.id}</td>
                   <td>{item.nametype}</td>
                   <td>{item.recclass}</td>
-                  <td>{item.mass}</td>
+                  <td align="right">{item.mass}</td>
                   <td>{item.fall}</td>
                   <td>{item.year ? item.year.substring(0, 4) : ""}</td>
-                  <td>{item.reclat}</td>
-                  <td>{item.reclong}</td>
+                  <td align="right">{item.reclat}</td>
+                  <td align="right">{item.reclong}</td>
                 </tr>
               )
 
