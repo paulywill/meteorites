@@ -2,28 +2,38 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
 const API_URL = 'https://data.nasa.gov/resource/gh4g-9sfh.json';
+const API_LIMIT = '100';
+const API_OFFSET = '100';
 
 class App extends Component {
   state = {
-    meteorite: []
+    meteorite: [],
+    total_count : undefined
   }
-
   componentDidMount() {
-    const url = `${API_URL}`;
+    const url = `${API_URL}?$limit=${API_LIMIT}`;
+    const record_count = `${API_URL}?$select=count(*)`;
     axios.get(url).then(response => response.data)
       .then((data) => {
         this.setState({ meteorite: data })
         console.log(this.state.meteorite)
       })
+    axios.get(record_count).then(response => response.data)
+      .then((data) => {
+        this.setState({ total_count: data }) 
+        console.log(this.state.total_count)
+      })  
   }
-
-
 
   render() {
     return (
-      <div className="flex-container">
+      <div>
         <header className="App-header">
           <h1>Meteorite Explorer</h1>
+
+          
+         
+          
 
           <form>
             <label>
@@ -32,6 +42,11 @@ class App extends Component {
             <input type="submit" value="Submit" />
           </form>
           <br />
+          
+          {this.state.total_count && <h3>Total record count: {this.state.total_count[0].count}</h3>}
+          
+          
+     
           <table>
             <tbody>  
             <tr>
@@ -48,7 +63,7 @@ class App extends Component {
             {this.state.meteorite.map(function (item, key) {
               return (
                 
-                <tr key={key} className="border_bottom">
+                <tr key={key}>
                   <td>{item.name}</td>
                   <td align="right">{item.id}</td>
                   <td>{item.nametype}</td>
