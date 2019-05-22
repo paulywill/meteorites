@@ -1,27 +1,57 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import 'rc-pagination/assets/index.css';
+import Pagination from 'rc-pagination';
+import localeInfo from 'rc-pagination/lib/locale/en_US';
 import './App.css';
 const API_URL = 'https://data.nasa.gov/resource/gh4g-9sfh.json';
+const API_LIMIT = 100;
+const API_OFFSET = 100;
+const itemRender = (current, type, element) => {
+  if (type === 'page') {
+    return <a href={`#${current}`}>{current}</a>;
+  }
+  return element;
+};
+
 
 class App extends Component {
   state = {
-    meteorite: []
+    meteorite: [],
+    total_count : undefined,
+    total_pages : undefined,
   }
 
-  componentDidMount() {
-    const url = `${API_URL}`;
-    axios.get(url).then(response => response.data)
+    
+  getData = (url, key) => {
+    axios.get(url)
+      .then(response => response.data)
       .then((data) => {
-        this.setState({ meteorite: data })
-        console.log(this.state.meteorite)
+        this.setState({
+          [key]: data
+        })
       })
   }
 
+  onChange(current) {
+    console.log('onChange:current=', current);
+    let offset = undefined
+    current === 1 ? offset = 0 : offset = API_OFFSET
+    const url = `${API_URL}?$limit=${API_LIMIT}&$offset=${(current - 1) * offset}`;
+    this.getData(url, 'meteorite');
+  }
 
+
+  componentDidMount() {
+    const url = `${API_URL}?$limit=${API_LIMIT}`;
+    const record_count = `${API_URL}?$select=count(*)`;
+    this.getData(url, 'meteorite');
+    this.getData(record_count, 'total_count');
+  }
 
   render() {
     return (
-      <div className="flex-container">
+      <div>
         <header className="App-header">
           <h1>Meteorite Explorer</h1>
 
@@ -32,6 +62,11 @@ class App extends Component {
             <input type="submit" value="Submit" />
           </form>
           <br />
+               
+          {this.state.total_count &&  
+            <Pagination showTotal={(total, range) => `${range[0]} - ${range[1]} of ${total} items`} total={parseInt(this.state.total_count[0].count)} locale={localeInfo} itemRender={itemRender} pageSize={API_LIMIT} onChange={this.onChange.bind(this)} />
+          } 
+          
           <table>
             <tbody>  
             <tr>
@@ -48,7 +83,7 @@ class App extends Component {
             {this.state.meteorite.map(function (item, key) {
               return (
                 
-                <tr key={key} className="border_bottom">
+                <tr key={key}>
                   <td>{item.name}</td>
                   <td align="right">{item.id}</td>
                   <td>{item.nametype}</td>
