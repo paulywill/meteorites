@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Pagey from './components/Pagey';
 import './App.css';
 const API_URL = 'https://data.nasa.gov/resource/gh4g-9sfh.json';
 const API_LIMIT = '100';
@@ -8,7 +9,8 @@ const API_OFFSET = '100';
 class App extends Component {
   state = {
     meteorite: [],
-    total_count : undefined
+    total_count : undefined,
+    total_pages : undefined,
   }
   componentDidMount() {
     const url = `${API_URL}?$limit=${API_LIMIT}`;
@@ -23,6 +25,8 @@ class App extends Component {
         this.setState({ total_count: data }) 
         console.log(this.state.total_count)
       })  
+
+    
   }
 
   render() {
@@ -45,8 +49,12 @@ class App extends Component {
           
           {this.state.total_count && <h3>Total record count: {this.state.total_count[0].count}</h3>}
           
+          {this.state.total_count &&  
+ 
+            <Pagey 
+            total={parseInt(this.state.total_count[0].count)}/>
           
-     
+          } 
           <table>
             <tbody>  
             <tr>
