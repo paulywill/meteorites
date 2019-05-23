@@ -38,10 +38,13 @@ class App extends Component {
 
   onChangeSearch = async (e) => {
     e.preventDefault(); 
-    const name = e.target.elements.name.value;
+    const name = e.target.elements.name.value.toUpperCase();
     console.log('name: '+ name);
-    const url = `${API_URL}?$limit=${API_LIMIT}&$where=name like %27%25${name}%25%27`;
+    const url = `${API_URL}?$limit=${API_LIMIT}&$where=upper(name)%20like%20%27%25${name}%25%27`;
+    const record_count = `${API_URL}?$select=count(*)&$where=upper(name)%20like%20%27%25${name}%25%27`;
     this.getData(url, 'meteorite');
+    this.getData(record_count, 'total_count');
+    
   }
 
 
