@@ -3,6 +3,8 @@ import axios from 'axios';
 import 'rc-pagination/assets/index.css';
 import Pagination from 'rc-pagination';
 import localeInfo from 'rc-pagination/lib/locale/en_US';
+import Form from "./components/Form";
+
 import './App.css';
 const API_URL = 'https://data.nasa.gov/resource/gh4g-9sfh.json';
 const API_LIMIT = 100;
@@ -20,6 +22,7 @@ class App extends Component {
     meteorite: [],
     total_count : undefined,
     total_pages : undefined,
+    name: undefined
   }
 
     
@@ -33,8 +36,17 @@ class App extends Component {
       })
   }
 
-  onChange(current) {
-    console.log('onChange:current=', current);
+  onChangeSearch = async (e) => {
+    e.preventDefault(); 
+    const name = e.target.elements.name.value;
+    console.log('name: '+ name);
+    const url = `${API_URL}?$limit=${API_LIMIT}&$where=name like %27%25${name}%25%27`;
+    this.getData(url, 'meteorite');
+  }
+
+
+  onChangePage(current) {
+    console.log('onChangePage:current=', current);
     let offset = undefined
     current === 1 ? offset = 0 : offset = API_OFFSET
     const url = `${API_URL}?$limit=${API_LIMIT}&$offset=${(current - 1) * offset}`;
@@ -55,16 +67,11 @@ class App extends Component {
         <header className="App-header">
           <h1>Meteorite Explorer</h1>
 
-          <form>
-            <label>
-              Search: <input type="text" name="name" />
-            </label>
-            <input type="submit" value="Submit" />
-          </form>
+          <Form onChangeSearch={this.onChangeSearch} />
           <br />
                
           {this.state.total_count &&  
-            <Pagination showTotal={(total, range) => `${range[0]} - ${range[1]} of ${total} items`} total={parseInt(this.state.total_count[0].count)} locale={localeInfo} itemRender={itemRender} pageSize={API_LIMIT} onChange={this.onChange.bind(this)} />
+            <Pagination showTotal={(total, range) => `${range[0]} - ${range[1]} of ${total} items`} total={parseInt(this.state.total_count[0].count)} locale={localeInfo} itemRender={itemRender} pageSize={API_LIMIT} onChange={this.onChangePage.bind(this)} />
           } 
           
           <table>
@@ -98,6 +105,8 @@ class App extends Component {
 
             })}</tbody>
           </table>
+
+          
 
         </header>
       </div >
