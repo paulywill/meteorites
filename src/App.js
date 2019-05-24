@@ -78,7 +78,7 @@ class App extends Component {
           <br />
                
           {this.state.total_count &&  
-            <Pagination showTotal={(total, range) => `${range[0]} - ${range[1]} of ${total} items`} total={parseInt(this.state.total_count[0].count)} locale={localeInfo} itemRender={itemRender} pageSize={API_LIMIT} onChange={this.onChangePage.bind(this)} />
+            <Pagination showTotal={(total, range) => `${range[0]} - ${range[1]} of ${total} items`} total={parseInt(this.state.total_count[0].count)} locale={localeInfo} itemRender={itemRender} pageSize={API_LIMIT} onChange={this.onChangePage.bind(this)} showLessItems />
           } 
           
           <table className="meteorites" >
