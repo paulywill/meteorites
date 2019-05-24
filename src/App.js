@@ -16,7 +16,6 @@ const itemRender = (current, type, element) => {
   return element;
 };
 
-
 class App extends Component {
   state = {
     meteorite: [],
@@ -64,8 +63,13 @@ class App extends Component {
     this.getData(record_count, 'total_count');
   }
 
+  
+  
+
   render() {
+    
     return (
+      
       <div>
         <header className="App-header">
           <h1>Meteorite Explorer</h1>
@@ -77,32 +81,34 @@ class App extends Component {
             <Pagination showTotal={(total, range) => `${range[0]} - ${range[1]} of ${total} items`} total={parseInt(this.state.total_count[0].count)} locale={localeInfo} itemRender={itemRender} pageSize={API_LIMIT} onChange={this.onChangePage.bind(this)} />
           } 
           
-          <table>
-            <tbody>  
-            <tr>
-              <th>Name</th>
-              <th>Id</th>
-              <th>NameType</th>
-              <th>Rec Class</th>
-              <th>Mass (g)</th>
-              <th>Fall</th>
-              <th>Year</th>
-              <th>Latitude</th>
-              <th>Longitude</th>
-            </tr>
+          <table className="meteorites" >
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Id</th>
+                <th scope="col">NameType</th>
+                <th scope="col">Rec Class</th>
+                <th scope="col">Mass (g)</th>
+                <th scope="col">Fall</th>
+                <th scope="col">Year</th>
+                <th scope="col">Latitude</th>
+                <th scope="col">Longitude</th>
+              </tr>
+            </thead>
+            <tbody> 
             {this.state.meteorite.map(function (item, key) {
               return (
                 
                 <tr key={key}>
-                  <td>{item.name}</td>
-                  <td align="right">{item.id}</td>
-                  <td>{item.nametype}</td>
-                  <td>{item.recclass}</td>
-                  <td align="right">{item.mass}</td>
-                  <td>{item.fall}</td>
-                  <td>{item.year ? item.year.substring(0, 4) : ""}</td>
-                  <td align="right">{item.reclat}</td>
-                  <td align="right">{item.reclong}</td>
+                  <td data-label="Name">{item.name}</td>
+                  <td data-label="Id" align="right">{item.id}</td>
+                  <td data-label="Name Type">{item.nametype}</td>
+                  <td data-label="Rec Class">{item.recclass}</td>
+                  <td data-label="Mass(g)" align="right">{item.mass}</td>
+                  <td data-label="Fall">{item.fall}</td>
+                  <td data-label="Year">{item.year ? item.year.substring(0, 4) : ""}</td>
+                  <td data-label="Lat." align="right">{item.reclat}</td>
+                  <td data-label="Long." align="right">{item.reclong}</td>
                 </tr>
               )
 
