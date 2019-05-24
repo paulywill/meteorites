@@ -38,6 +38,7 @@ class App extends Component {
   onChangeSearch = async (e) => {
     e.preventDefault(); 
     const name = e.target.elements.name.value.toUpperCase();
+    this.setState({ name: name})
     console.log('name: '+ name);
     const url = `${API_URL}?$limit=${API_LIMIT}&$where=upper(name)%20like%20%27%25${name}%25%27`;
     const record_count = `${API_URL}?$select=count(*)&$where=upper(name)%20like%20%27%25${name}%25%27`;
@@ -51,7 +52,7 @@ class App extends Component {
     console.log('onChangePage:current=', current);
     let offset = undefined
     current === 1 ? offset = 0 : offset = API_OFFSET
-    const url = `${API_URL}?$limit=${API_LIMIT}&$offset=${(current - 1) * offset}`;
+    const url = `${API_URL}?$limit=${API_LIMIT}&$where=upper(name)%20like%20%27%25${this.state.name}%25%27&$offset=${(current - 1) * offset}`;
     this.getData(url, 'meteorite');
   }
 
