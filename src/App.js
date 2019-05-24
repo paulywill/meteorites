@@ -21,7 +21,8 @@ class App extends Component {
     meteorite: [],
     total_count : undefined,
     total_pages : undefined,
-    name: undefined
+    name: undefined,
+    current: 1
   }
 
     
@@ -38,7 +39,10 @@ class App extends Component {
   onChangeSearch = async (e) => {
     e.preventDefault(); 
     const name = e.target.elements.name.value.toUpperCase();
-    this.setState({ name: name})
+    this.setState({ 
+      name: name,
+      current: 1
+    })
     console.log('name: '+ name);
     const url = `${API_URL}?$limit=${API_LIMIT}&$where=upper(name)%20like%20%27%25${name}%25%27`;
     const record_count = `${API_URL}?$select=count(*)&$where=upper(name)%20like%20%27%25${name}%25%27`;
@@ -51,6 +55,7 @@ class App extends Component {
   onChangePage(current) {
     console.log('onChangePage:current=', current);
     let offset = undefined
+    this.setState({current: current});
     current === 1 ? offset = 0 : offset = API_OFFSET
     const url = (this.state.name ? 
       `${API_URL}?$limit=${API_LIMIT}&$where=upper(name)%20like%20%27%25${this.state.name}%25%27&$offset=${(current - 1) * offset}` :
@@ -82,7 +87,7 @@ class App extends Component {
           <br />
                
           {this.state.total_count &&  
-            <Pagination showTotal={(total, range) => `${range[0]} - ${range[1]} of ${total} items`} total={parseInt(this.state.total_count[0].count)} locale={localeInfo} itemRender={itemRender} pageSize={API_LIMIT} onChange={this.onChangePage.bind(this)} showLessItems />
+            <Pagination showTotal={(total, range) => `${range[0]} - ${range[1]} of ${total} items`} current={this.state.current} total={parseInt(this.state.total_count[0].count)} locale={localeInfo} itemRender={itemRender} pageSize={API_LIMIT} onChange={this.onChangePage.bind(this)} showLessItems />
           } 
           
           <table className="meteorites" >
