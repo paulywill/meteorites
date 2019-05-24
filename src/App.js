@@ -52,7 +52,10 @@ class App extends Component {
     console.log('onChangePage:current=', current);
     let offset = undefined
     current === 1 ? offset = 0 : offset = API_OFFSET
-    const url = `${API_URL}?$limit=${API_LIMIT}&$where=upper(name)%20like%20%27%25${this.state.name}%25%27&$offset=${(current - 1) * offset}`;
+    const url = (this.state.name ? 
+      `${API_URL}?$limit=${API_LIMIT}&$where=upper(name)%20like%20%27%25${this.state.name}%25%27&$offset=${(current - 1) * offset}` :
+      `${API_URL}?$limit=${API_LIMIT}&$offset=${(current - 1) * offset}`
+    );
     this.getData(url, 'meteorite');
   }
 
