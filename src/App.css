@@ -15,6 +15,7 @@ body {
   line-height: 1.25;
 }
 
+
 table {
   border: 1px solid #ccc;
   border-collapse: collapse;
@@ -49,6 +50,10 @@ table th {
 }
 
 @media screen and (max-width: 1000px) {
+  button{
+    color: white;
+  }
+  
   table {
     border: 0;
     color: black;
@@ -97,7 +102,7 @@ table th {
   }
 
   img {
-    width: 100%;
+    width: 80%;
     height: auto;
   }
 }
