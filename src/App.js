@@ -22,7 +22,8 @@ class App extends Component {
     total_count : undefined,
     total_pages : undefined,
     name: undefined,
-    current: 1
+    current: 1,
+    error_status: "",
   }
 
     
@@ -33,7 +34,32 @@ class App extends Component {
         this.setState({
           [key]: data
         })
+        this.setState({ error_status: ""});
       })
+      
+      .catch((error) => {
+        // Error
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error.response.data);
+          console.log("error.response.status: " + error.response.status);
+          console.log(error.response.headers);
+          console.log(error.response.message);
+          this.setState({ error_status: error.response.status });
+          this.setState({ meteorite: []});
+
+        } else if (error.request) {
+          // The request was made but no response was received
+          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+          // http.ClientRequest in node.js
+          console.log("error.request: " + error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message);
+        }
+        console.log("error.config: " + error.config);
+      });
   }
 
   onChangeSearch = async (e) => {
@@ -85,7 +111,11 @@ class App extends Component {
 
           <Form onChangeSearch={this.onChangeSearch} />
           <br />
-               
+             
+          {this.state.error_status && 
+          <img src={'https://httpstatusdogs.com/img/' + this.state.error_status + '.jpg'} alt={'http status dogs'} /> 
+          }
+
           {this.state.total_count &&  
             <Pagination showTotal={(total, range) => `${range[0]} - ${range[1]} of ${total} items`} current={this.state.current} total={parseInt(this.state.total_count[0].count)} locale={localeInfo} itemRender={itemRender} pageSize={API_LIMIT} onChange={this.onChangePage.bind(this)} showLessItems />
           } 
