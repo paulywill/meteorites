@@ -38,6 +38,9 @@ class App extends Component {
       })
       
       .catch((error) => {
+        this.setState({ error_status: error.response.status });
+        this.setState({ meteorite: []});
+        this.setState({ total_count: undefined });
         // Error
         if (error.response) {
           // The request was made and the server responded with a status code
@@ -45,10 +48,6 @@ class App extends Component {
           console.log(error.response.data);
           console.log("error.response.status: " + error.response.status);
           console.log(error.response.headers);
-          console.log(error.response.message);
-          this.setState({ error_status: error.response.status });
-          this.setState({ meteorite: []});
-
         } else if (error.request) {
           // The request was made but no response was received
           // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
@@ -120,6 +119,7 @@ class App extends Component {
             <Pagination showTotal={(total, range) => `${range[0]} - ${range[1]} of ${total} items`} current={this.state.current} total={parseInt(this.state.total_count[0].count)} locale={localeInfo} itemRender={itemRender} pageSize={API_LIMIT} onChange={this.onChangePage.bind(this)} showLessItems />
           } 
           
+          {this.state.total_count &&  
           <table className="meteorites" >
             <thead>
               <tr>
@@ -153,7 +153,7 @@ class App extends Component {
 
             })}</tbody>
           </table>
-
+          }
           
 
         </header>
