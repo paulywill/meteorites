@@ -95,4 +95,9 @@ table th {
   table td:last-child {
     border-bottom: 0;
   }
+
+  img {
+    width: 100%;
+    height: auto;
+  }
 }
